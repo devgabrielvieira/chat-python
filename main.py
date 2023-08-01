@@ -34,5 +34,5 @@ def home():
 
 if __name__ == "__main__":
     socketio.run(
-        app, host="localhost"
+        app, host="https://chatwitter.onrender.com"
     )  # define que o app vai rodar no seu servidor local, ou seja, na internet em que o seu computador tá conectado
