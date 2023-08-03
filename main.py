@@ -1,38 +1,20 @@
-# site com os scripts: https://cdnjs.com/
-# bibliotecas a instalar:
-# Flask – pip install flask
-# Socketio – pip install python-socketio / pip install flask-socketio
-# Simple Websocket – pip install simple-websocket
+from flask import Flask, render_template
+from flask_socketio import SocketIO, send
 
-from flask import Flask, render_template  # estruturas para criar o site
-from flask_socketio import SocketIO, send  # estruturas para criar o chat
+app = Flask(__name__)
+app.config["DEBUG"] = False  # Desligue o modo de depuração no ambiente de produção
+app.config["SECRET_KEY"] = "ajuiahfa78fh9f78shfs768fgs7f6#@%¨#"  # Defina uma chave secreta adequada
 
-app = Flask(__name__)  # cria o site
-app.config[
-    "SECRET"
-] = "ajuiahfa78fh9f78shfs768fgs7f6#@%¨#"  # chave de seguranca, pode ser qualquer coisa, mas escolha algo dificil
-app.config["DEBUG"] = True  # para testarmos o código, no final tiramos
-socketio = SocketIO(
-    app, cors_allowed_origins="*"
-)  # cria a conexão entre diferentes máquinas que estão no mesmo site
+socketio = SocketIO(app, cors_allowed_origins="*")
 
-
-@socketio.on(
-    "message"
-)  # define que a função abaixo vai ser acionada quando o evento de "message" acontecer
+@socketio.on("message")
 def gerenciar_mensagens(mensagem):
     print(f"Mensagem: {mensagem}")
-    send(mensagem, broadcast=True)  # envia a mensagem para todo mundo conectado no site
+    send(mensagem, broadcast=True)
 
-
-@app.route("/")  # cria a página do site
+@app.route("/")
 def home():
-    return render_template(
-        "index.html"
-    )  # essa página vai carregar esse arquivo html que está aqui
-
+    return render_template("index.html")
 
 if __name__ == "__main__":
-    socketio.run(
-        app, host="127.0.0.1"
-    )  # define que o app vai rodar no seu servidor local, ou seja, na internet em que o seu computador tá conectado
+    socketio.run(app)  # Remova a chamada para socketio.run(), pois o Gunicorn irá gerenciar o servidor agora
