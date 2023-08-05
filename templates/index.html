@@ -142,7 +142,7 @@
 
     <script type="text/javascript">
       $(document).ready(function () {
-        var socket = io("chatwitter.onrender.com");
+        var socket = io("socket.io");
         socket.on("connect", function () {
           console.log("conectou");
         });
