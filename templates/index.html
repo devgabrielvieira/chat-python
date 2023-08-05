@@ -132,7 +132,7 @@
 
     <script type="text/javascript">
       $(document).ready(function () {
-        var socket = io("wss://");
+        var socket = io("localhost");
         socket.on("connect", function () {
           console.log("conectou");
         });
