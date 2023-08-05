@@ -132,7 +132,7 @@
 
     <script type="text/javascript">
       $(document).ready(function () {
-        var socket = io("localhost");
+        var socket = io("https://onrender-socket.io");
         socket.on("connect", function () {
           console.log("conectou");
         });
