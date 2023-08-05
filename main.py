@@ -17,4 +17,4 @@ def home():
     return render_template("index.html")
 
 if __name__ == "__main__":
-    # socketio.run(app)  # Remova a chamada para socketio.run(), pois o Gunicorn irá gerenciar o servidor agora
+    socketio.run(app)  # Remova a chamada para socketio.run(), pois o Gunicorn irá gerenciar o servidor agora
