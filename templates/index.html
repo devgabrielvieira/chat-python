@@ -129,17 +129,48 @@
       <input type="text" id="mensagem" placeholder="Mensagem" required />
       <button class="bt-enviar" id="botao">enviar</button>
     </div>
-
-    <script type="text/javascript" charset="utf-8">
+    
+     <script type="text/javascript" charset="utf-8">
       $(document).ready(function () {
         var socket = io();
-        socket.on('connect', function() {
+        var userColors = {}; // A map to store user colors
+
+        function getRandomColor() {
+          // Function to generate random colors
+          var letters = "0123456789ABCDEF";
+          var color = "#";
+          for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+          return color;
+        }
+
+        socket.on("connect", function () {
           console.log("conectou");
         });
 
         socket.on("message", function (data) {
           console.log("enviou mensagem");
-          $("#chat-container").append($("<p>").text(data));
+
+          var messageParts = data.split(": ");
+          var username = messageParts[0];
+          var message = messageParts[1];
+
+          // Check if user color is already assigned, if not, generate a random color and assign it
+          if (!userColors[username]) {
+            userColors[username] = getRandomColor();
+          }
+
+          var messageElement = $("<p>")
+            .text(message)
+            .css("background-color", userColors[username]) // Set the background color
+            .css("color", "#fff") // Set the text color to white for better visibility
+            .css("border-radius", "6px")
+            .css("padding", "10px")
+            .css("margin", "10px 0");
+
+          $("#chat-container").append(messageElement);
+
           // Scroll to the bottom of the chat container
           $("#chat-container").scrollTop($("#chat-container")[0].scrollHeight);
         });
@@ -149,7 +180,8 @@
           socket.send($("#usuario").val() + ": " + $("#mensagem").val());
           $("#mensagem").val("");
         });
-        $("#mensagem").on("keypress", function () {
+
+        $("#mensagem").on("keypress", function (event) {
           if (event.key === "Enter") {
             console.log("deu enter");
             socket.send($("#usuario").val() + ": " + $("#mensagem").val());
@@ -159,4 +191,5 @@
       });
     </script>
   </body>
+</html>
 </html>
