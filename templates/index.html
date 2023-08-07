@@ -105,7 +105,7 @@
         height: auto;
       }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
@@ -130,10 +130,11 @@
       <button class="bt-enviar" id="botao">enviar</button>
     </div>
 
-    <script type="text/javascript">
+    <script type="text/javascript" charset="utf-8">
       $(document).ready(function () {
-        var socket = io("https://chatwitter.onrender.com/");
-        socket.on("connect", function () {
+        var socket = io();
+        socket.on('connect', function() {
+        socket.emit('my event', {data: 'I\'m connected!'});
           console.log("conectou");
         });
 
